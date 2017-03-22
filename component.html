@@ -76,6 +76,32 @@
         }
     })
 
+    Vue.component('check-prop', {
+        props: {
+            propA: Number,
+            propB: [String,Number],
+            propC: {
+                type: String,
+                required: true
+            },
+            propD: {
+                type: Number,
+                default: 100
+            },
+            propE: {
+                type:Object,
+                default: function() {
+                    return { message: 'hello'}
+                }
+            },
+            propF: {
+                validator: function() {
+                    return {message: 'hello'}
+                }
+            }
+        }
+    })
+
     new Vue({
         el: '#example2',
         data: {
