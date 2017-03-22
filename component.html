@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    </style>
+</head>
+
+<body>
+    <div id="example">
+        <a-component></a-component>
+        <a-component></a-component>
+        <a-component></a-component>
+    </div>
+
+    <table id="example1">
+        <tr is="b-component"></tr>
+    </table>
+
+    <div id="example2">
+        <input v-model="parentMsg">
+        <prop-component v-bind:message="parentMsg"></prop-component>
+        <p>parentMsg:    {{parentMsg}}</p>
+    </div>
+
+</body>
+<script src="./vue/vue.js"></script>
+<script>
+    var child = {
+        template: `
+            <div>在局部注册的一个新组件B</div>
+        `
+    }
+
+    Vue.component('a-component', {
+        template: `
+            <div>
+                 <button v-on:click="counter+=1">{{counter}}</button> 
+            </div>
+            `,
+        props: ['message'],
+        data: function() {
+            return {
+                counter: 0,
+            }
+        },
+
+
+    })
+
+    // 父级传了message，message变的时候会触发computed，所以normalizedSize会变；但是msg在组件created之后就和message没关系啦；除非你message是个引用类型的，但是引用类型一般也不建议这么用；
+    Vue.component('prop-component', {
+        template: `
+            <div>
+                 <p>message:   {{message}}</p>
+                 <p>normalizedSize:   {{normalizedSize}}</p>          
+                 <p>msg:   {{msg}}</p>
+                 <input v-model="childMsg">
+                 <p>childMsg:  {{childMsg}}</p>
+            </div>
+        `,
+        props: ['message'],
+        data: function() {
+            return {
+                msg: this.message,
+                childMsg: ''
+            }
+        },
+        computed: {
+            normalizedSize: function() {
+                return this.message.trim().toLowerCase()
+            }
+        }
+    })
+
+    new Vue({
+        el: '#example2',
+        data: {
+            parentMsg: ''
+        }
+    })
+
+
+
+
+
+
+    new Vue({
+        el: '#example'
+
+    })
+
+    new Vue({
+        el: '#example1',
+        components: {
+            'b-component': child
+        }
+    })
+</script>
+
+</html>

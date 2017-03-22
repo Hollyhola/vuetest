@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    </style>
+</head>
+
+<body>
+   <div id="example-2">
+       <button v-on:click="greet">hello</button>
+       <button v-on:click="say('hi')">say hi</button>
+   </div>
+</body>
+<script src="./vue/vue.js"></script>
+<script>
+  var example2 = new Vue({
+      el: '#example-2',
+      data: {
+          name: 'Vue.js'
+      },
+      methods: {
+          greet: function(event) {
+              alert('hello'+ this.name)
+              alert(event.target.tagName)
+          },
+          say: function(message) {
+              alert(message)
+          }
+      }
+  })
+</script>
+
+</html>

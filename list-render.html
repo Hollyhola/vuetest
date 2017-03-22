@@ -1,31 +1,190 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title></title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-            
-        </style>
-    </head>
-    <body>
-        <ul id="example-1">
-            <li v-for="item in items">
-                {{item.message}}
-            </li>
+
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    </style>
+</head>
+
+<body>
+    <ul id="example-1">
+        <li v-for="item in items">
+            {{item.message}}
+        </li>
+    </ul>
+    <ul id="example-2">
+        <!--<li v-for="(item,index) in items">
+                    {{parentMessage}}-{{index}}-{{item.message}}
+            </li>-->
+        <div v-for="item in items" v-bind:key="item.id">
+            <li>{{ item.message}}</li>
+            <li class="divider">---</li>
+        </div>
+    </ul>
+
+    <ul id="repeat-object" class="demo">
+        <li v-for="(value,key,index) in object">
+            {{key}} : {{value}} : {{index}}
+        </li>
+    </ul>
+
+    <div id="example-4">
+        <span v-for="n in 10">{{n}}</span>
+    </div>
+
+    <!--<div id="todo-list-example">
+            <input v-model="newTotoText"
+                    v-on:keyup.enter="addNewTodo">
+            <ul>
+                <todo-item v-for="(todo, index) in todos"
+                            v-bind:hh="todo"
+                            v-on:remove="todos.splice(index,1)"></todo-item>
+            </ul>
+        </div>-->
+    <div id="todo-list-example">
+        <input v-model="newTodoText" v-on:keyup.enter="addNewTodo">
+        <ul>
+            <todo-item v-for="(todo, index) in todos" v-bind:title="todo" v-on:remove="todos.splice(index, 1)"></todo-item>
         </ul>
-    </body>
-    <script src="./vue/vue.js"></script>
-    <script>  
-        var example1 = new Vue({
+    </div>
+    <div id="example-5">
+        <li v-for="n in evenNumber">{{ n }}</li>
+        <span v-for="n in even(numbers)">{{ n }}</span>
+    </div>
+</body>
+<script src="./vue/vue.js"></script>
+<script>
+    // Vue.component('todo-item', {
+    //     template: `
+    //         <li>
+    //             {{hh}}
+    //             <button v-on:click="$emit('remove')">X</button>
+    //         </li>
+    //     `,
+    //     props: ['hh']
+    // }) 
+
+    Vue.component('todo-item', {
+        template: `
+    <li>
+      {{ title }}
+      <button v-on:click="$emit('remove')">X</button>
+    </li>
+  `,
+        props: ['title']
+    })
+
+    // new Vue({
+    //     el:'#todo-list-example',
+    //     data: {
+    //         newTotoText: '',
+    //         todos: [
+    //             'Do the dishes',
+    //             'Take out the trash',
+    //             'Mow the lawn'
+    //         ]
+    //     },
+    //     methods: {
+    //         addNewTodo: function() {
+    //             this.todos.push(this.newTodoText)
+    //             this.newTodoText = ''
+    //         }
+    //     }
+    // })
+
+    new Vue({
+        el: '#todo-list-example',
+        data: {
+            newTodoText: '',
+            todos: [
+                'Do the dishes',
+                'Take out the trash',
+                'Mow the lawn'
+            ]
+        },
+        methods: {
+            addNewTodo: function() {
+                this.todos.push(this.newTodoText)
+                this.newTodoText = ''
+            }
+        }
+    })
+    var example1 = new Vue({
             el: '#example-1',
             data: {
-                items: [
-                    {message: 'Foo'},
-                    {message: 'bar'}
-                ]
+                items: [{
+                    message: 'Foo'
+                }, {
+                    message: 'bar'
+                }, {
+                    message: 'hhh'
+                }, {
+                    message: 'yyy'
+                }],
             }
         })
+        // example1.items = example1.items.filter(function(item) {
+        //     return item.message.match(/Foo/)
+        // })
 
-      
-    </script>
+    Vue.set(example1.items, 2, {
+        message: '2333'
+    })
+    example1.items.splice(3, 1, {
+        message: 'nihao'
+    })
+    var example2 = new Vue({
+        el: '#example-2',
+        data: {
+            parentMessage: 'Parent',
+            items: [{
+                message: 'Foo',
+                id: 1
+            }, {
+                message: 'Bar',
+                id: 2
+            }]
+        }
+    })
+
+    var example3 = new Vue({
+        el: '#repeat-object',
+        data: {
+            object: {
+                FirstName: 'john',
+                LastName: 'Doe',
+                Age: 30
+            }
+        }
+    })
+
+    var example4 = new Vue({
+        el: '#example-4'
+    })
+
+    var example5 = new Vue({
+        el: '#example-5',
+        data: {
+            numbers: [1,2,3,4,5]
+        },
+        computed: {
+            evenNumber: function() {
+                return this.numbers.filter(function(number){
+                    return number %2 === 0
+                })
+            }
+        },
+        methods: {
+            even: function(numbers) {
+                return numbers.filter(function(number) {
+                    return number % 2 === 0;
+                })
+            }
+        }
+    })
+</script>
+
 </html>
