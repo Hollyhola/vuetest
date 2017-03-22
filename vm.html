@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!--<link href="css/style.css" rel="stylesheet">-->
+    </head>
+    <body>
+        <!--<div v-bind:id="'list-'+id">my</div>-->
+        <div id="example">
+            <p>{{message | capitalize}}</p>
+            <p>Original message: {{message}}</p>
+            <!--<p>Computed reversed message: {{reversedMessage}}</p>-->
+            <p>reversed methods {{reversedMessage()}}</p>
+        </div>
+    </body>
+    <script src="./vue/vue.js">
+    </script>
+    <script>  
+    new Vue({
+        el: '#example',
+        data: {
+            id: 1,
+            message: 'hello'
+        },
+        filters: {
+            capitalize: function(value) {
+                if(!value) return ''
+                value = value.toString()
+                return value.charAt(0).toUpperCase()+value.slice(1)
+            }
+        },
+        computed: {
+            reversedMessage: function() {
+                return this.message.split('').reverse().join('')
+            }
+        },
+        methods: {
+            reversedMessage: function() {
+                return this.message.split('').reverse().join('')
+            }
+        }
+    })
+    </script>
+</html>

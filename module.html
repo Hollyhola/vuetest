@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+        <div id="example">
+            <my-conponent></my-conponent>
+            <part-component></part-component>
+        </div>
+        <div id="example2">
+            <simple-counter></simple-counter>
+            <simple-counter></simple-counter>
+            <simple-counter></simple-counter> 
+             <child message="hello"></child>           
+        </div>
+       
+       <div id="example3">
+           <input v-model="parentMsg">
+            <br>
+            <child v-bind:message="parentMsg"></child>
+       </div>
+       <!--动态prop-->
+       <div id="counter-event-example">
+           <p>{{total}}</p>
+           <button-counter v-on:increment="incrementTotal"></button-counter>
+           <button-counter v-on:increment="incrementTotal"></button-counter>           
+       </div>
+    </body>
+    <script src="./vue/vue.js">
+        
+    </script>
+    <script>
+        var data = { counter: 0 }
+        Vue.component('my-conponent', {
+            template: `<div>第一个组件</div>`
+        })
+        Vue.component('simple-counter', {
+            template: `<button v-on:click="counter+=1">{{counter}}</button>`,
+            data: function() {
+                return {
+                    counter:0
+                }
+            }
+        })
+
+        Vue.component('child', {
+            props: ['message'],
+            template: `<span>{{message}}</span>`
+        })
+
+        // prop验证
+        Vue.component('example', {
+            props: {
+                propA: Number,
+                propB: [String,Number],
+                propC: {
+                    type: String,
+                    require: true
+                },
+                propD: {
+                    type: Number,
+                    default: 100
+                },
+                propE: {
+                    type: Object,
+                    default: function() {
+                        return { message: 'hello'}
+                    }
+                },
+                propF: {
+                    validator: function(value) {
+                        return value>10
+                    }
+                }
+            }
+        })
+        Vue.component('button-counter', {
+            template: `<button v-on:click="increment">{{counter}}</button>`,
+            data: function() {
+                return {
+                    counter:0
+                }
+            },
+
+            methods: {
+                increment: function() {
+                    this.counter += 1
+                    this.$emit('increment')
+                }
+            },
+       })
+       new Vue({
+           el: '#counter-event-example',
+           data: {
+               total:0
+           },
+           methods: {
+               incrementTotal: function() {
+                   this.total += 1
+               }
+           }
+       })
+        new Vue({
+             el: '#example',
+             components: {
+                 'part-component': {
+                     template: `<h2>局部注册的组件</h2>`
+                 }
+             }
+         })
+    
+         new Vue({
+             el: '#example2'
+         })
+         new Vue({
+             el: '#example3',
+             data: {
+                 parentMsg: ''
+             }
+         })
+         //组件之间传递数据：父组件通过props向下传递数据给子组件，子组件通过event给父组件发送消息
+    </script>
+</html>

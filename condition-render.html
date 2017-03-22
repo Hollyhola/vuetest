@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!--<link href="css/style.css" rel="stylesheet">-->
+    </head>
+    <body>
+        <div id="demo"> 
+           <template v-if="loginType==='username'">
+               <label>Username</label>
+               <input placeholder="Enter your username" key="username-input">
+           </template>
+           <template >
+               <label>Email</label>
+               <input placeholder="Enter your email address" key="email-input">               
+           </template>
+           <button v-on:click="toggle">toggle</button>
+        </div>
+        
+    </body>
+    <script src="./vue/vue.js">
+        
+    </script>
+    <script>  
+    var flag = false
+    var vm = new Vue({
+        el: '#demo',
+        data: {
+            loginType: 'username',
+            ok: false
+            
+        },
+        computed: {
+          
+        },
+        methods: {
+            
+            toggle: function() {
+                
+                this.flag = !(this.flag)
+                this.loginType = this.flag ? 'username' : '111'
+            }
+        }
+        
+    })
+    </script>
+</html>

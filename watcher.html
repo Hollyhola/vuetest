@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!--<link href="css/style.css" rel="stylesheet">-->
+        <style>
+            .active {
+                background-color: pink;
+            }
+            .text-error {
+                color: red;
+            }
+            .text {
+                color: cornflowerblue;
+            }
+
+            
+        </style>
+    </head>
+    <body>
+        <div id="watch-example">
+            <p v-bind:class="{'active': isActive, 'text-error': hasError}">
+                Ask a yes/no question
+                
+            </p>
+            <p v-bind:class="classObj">{{answer}}</p>
+            <div v-bind:class="classComputed">happy day</div>
+            <div v-bind:class="[activeClass,errorClass]">数组语法</div>
+            <my-component class="baz boo"></my-component>
+            <div v-bind:style="{color: activeColor, fontSize: fontSize +'px'}">绑定内联样式之对象语法</div>
+            <p v-bind:style="styleObj">绑定到对象上</p>
+            <p v-bind:style="[baseStyle, colorStyle]">数组语法</p>
+        </div>
+    </body>
+    <script src="./vue/vue.js"></script>
+    <script src="https://unpkg.com/axios@0.12.0/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/lodash@4.13.1/lodash.min.js"></script>
+    <script>  
+      Vue.component('my-component', {
+            template: '<h2 class="foo bar">用在组件上</h2>'
+        })
+        var vm = new Vue ({
+            el: '#watch-example',
+            data: {
+                question: '',
+                answer: 'I cannot give you an until you ask a question',
+                isActive: true,
+                hasError: true,
+                classObj: {
+                    active: true,
+                    text: true
+                },
+                activeClass: 'active',
+                errorClass: 'text-error',
+                activeColor: 'yellow',
+                fontSize: 30,
+                styleObj : {
+                    color: 'red',
+                    fontSize: '13px'
+                },
+                baseStyle: {
+                    fontSize: '33px'
+                },
+                colorStyle: {
+                    color: 'pink'
+                }
+            },
+            computed: {
+                classComputed: function() {
+                    return {
+                        active: this.isActive && this.hasError
+                        
+                    }
+                }
+            }
+        })
+
+      
+    </script>
+</html>
